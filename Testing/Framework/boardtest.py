@@ -92,7 +92,7 @@ class BoardTest(test.Test):
                 f"{round(runtime * 1000, 2)}ms" if runtime < 1 else f"{round(runtime, 2)}s"
             if self.display:
                 for line in results:
-                    print(line)  # prints verilog simulaiton output
+                    print(line)  # prints verilog simulation output
                 print(self.data[self.cur_mode]["RUNTIME"])
         self.passed = self.passing
         self.data['RESULT'] = 'PASS' if self.passed else 'FAIL'

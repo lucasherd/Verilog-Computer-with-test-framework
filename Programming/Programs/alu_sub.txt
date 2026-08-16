@@ -1,0 +1,6 @@
+LOADI #25, [r0]
+LOADI #2, [r1]
+SUB r0, r1, [r2]
+LOADI #-50, [r3]
+SUB r2, r3, [r4]
+HALT

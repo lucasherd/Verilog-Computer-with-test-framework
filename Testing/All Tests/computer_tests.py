@@ -1,8 +1,8 @@
 from test import Test
 from testsuite import TestSuite
 NONE = 0
-FAIL = 1
-SOME = 2
+SOME = 1
+FAIL = 2
 ALL = 3
 
 add = Test('alu_add')
@@ -20,8 +20,8 @@ loopwhile = Test('loop_while')
 alu_tests = TestSuite('alu_tests',[add, sub, bit, imm])
 non_alu_tests = TestSuite('non-alu_tests', [cmp_tests,br])
 integrated_tests = TestSuite('integrated_tests', [loopwhile])
-TESTS = TestSuite('CURRENT TESTS',
-                  [alu_tests, non_alu_tests, loopwhile],
+TESTS = TestSuite('COMPUTER TESTS',
+                  [alu_tests, non_alu_tests, integrated_tests],
                   update_programs=False,
                   display_output=FAIL)
 

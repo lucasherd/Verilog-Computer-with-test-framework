@@ -1,0 +1,11 @@
+LOADI #60, [r0]
+LOADI #3, [r1]
+LOADI #0, [r2]
+LOADI #-20, [r3]
+STORE r0, m[r2]
+STORE r1, m[r0]
+STOREI r3, m[#1]
+LOAD m[r0], [r5]
+LOADIM m[#1], [r7]
+LOAD m[r2], [r4]
+HALT

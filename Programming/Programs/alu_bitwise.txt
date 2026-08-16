@@ -1,0 +1,8 @@
+LOADI #b00010101, [r0]
+LOADI #b00001011, [r1]
+AND r0, r1, [r2]
+OR r0, r1, [r3]
+XOR r0, r1, [r4]
+SHL r0, [r5]
+SHR r1, [r6]
+HALT

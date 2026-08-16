@@ -1,0 +1,42 @@
+{
+    "cmp_test1": {
+        "HALT": {
+            "R0": {
+                "expected": 27,
+                "measured": 27
+            },
+            "R1": {
+                "expected": 22,
+                "measured": 22
+            },
+            "R2": {
+                "expected": 0,
+                "measured": 0
+            },
+            "R3": {
+                "expected": 1,
+                "measured": 1
+            },
+            "R4": {
+                "expected": 0,
+                "measured": 0
+            },
+            "R5": {
+                "expected": 1,
+                "measured": 1
+            },
+            "R6": {
+                "expected": 0,
+                "measured": 0
+            },
+            "R7": {
+                "expected": 1,
+                "measured": 1
+            }
+        },
+        "RESULT": "PASS",
+        "RUNTIME": "19.81ms"
+    },
+    "RESULT": "PASS",
+    "TOTAL TIME": "90.3ms"
+}

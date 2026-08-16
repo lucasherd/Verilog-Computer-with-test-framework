@@ -1,0 +1,30 @@
+ADD rA, rB, [rW]
+SUB rA, rB, [rW]
+AND rA, rB, [rW]
+OR rA, rB, [rW]
+XOR rA, rB, [rW]
+SHL rA, [rW]
+SHR rA, [rW]
+INC rA, [rW]
+ADDI rA, #N, [rW]
+SUBI rA, #N, [rW]
+ANDI rA, #N, [rW]
+ORI rA, #N, [rW]
+XORI rA, #N, [rW]
+SHLI rA, #N, [rW]
+SHRI rA, #N, [rW]
+INCI #N, [rW]
+CMP  rA, rB
+CMPI rA, #N
+STORECMP op, [rW]
+BR op, LABEL
+JMP LABEL
+HALT
+STORE rB, m[rA]
+STOREI rB, m[#N]
+LOAD m[rA], [rW]
+LOADIM m[#N], [rW]
+LOADI #N, [rW]
+RESET //depreacted
+
+LABEL:

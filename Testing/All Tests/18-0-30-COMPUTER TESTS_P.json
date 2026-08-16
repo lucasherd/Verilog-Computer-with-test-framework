@@ -1,0 +1,306 @@
+{
+    "alu_tests": {
+        "alu_add": {
+            "HALT": {
+                "R2": {
+                    "expected": 20,
+                    "measured": 20
+                },
+                "R4": {
+                    "expected": -80,
+                    "measured": -80
+                },
+                "R5": {
+                    "expected": 3,
+                    "measured": 3
+                },
+                "R0": {
+                    "expected": -128,
+                    "measured": -128
+                }
+            },
+            "RESULT": "PASS",
+            "RUNTIME": "21.3ms"
+        },
+        "alu_sub": {
+            "HALT": {
+                "R2": {
+                    "expected": 23,
+                    "measured": 23
+                },
+                "R4": {
+                    "expected": 73,
+                    "measured": 73
+                }
+            },
+            "RESULT": "PASS",
+            "RUNTIME": "18.32ms"
+        },
+        "alu_bitwise": {
+            "HALT": {
+                "R0": {
+                    "expected": "00010101",
+                    "measured": "00010101"
+                },
+                "R1": {
+                    "expected": "00001011",
+                    "measured": "00001011"
+                },
+                "R2": {
+                    "expected": "00000001",
+                    "measured": "00000001"
+                },
+                "R3": {
+                    "expected": "00011111",
+                    "measured": "00011111"
+                },
+                "R4": {
+                    "expected": "00011110",
+                    "measured": "00011110"
+                },
+                "R5": {
+                    "expected": "00101010",
+                    "measured": "00101010"
+                },
+                "R6": {
+                    "expected": "00000101",
+                    "measured": "00000101"
+                }
+            },
+            "RESULT": "PASS",
+            "RUNTIME": "18.19ms"
+        },
+        "alu_imm": {
+            "HALT": {
+                "R0": {
+                    "expected": 10,
+                    "measured": 10
+                },
+                "R1": {
+                    "expected": 100,
+                    "measured": 100
+                },
+                "R2": {
+                    "expected": -30,
+                    "measured": -30
+                },
+                "R3": {
+                    "expected": "00001010",
+                    "measured": "00001010"
+                },
+                "R4": {
+                    "expected": "00011011",
+                    "measured": "00011011"
+                },
+                "R5": {
+                    "expected": "00010011",
+                    "measured": "00010011"
+                },
+                "R6": {
+                    "expected": "01010000",
+                    "measured": "01010000"
+                },
+                "R7": {
+                    "expected": 67,
+                    "measured": 67
+                }
+            },
+            "RESULT": "PASS",
+            "RUNTIME": "18.26ms"
+        },
+        "RESULT": "PASS"
+    },
+    "non-alu_tests": {
+        "cmp_tests": {
+            "cmp_test1": {
+                "HALT": {
+                    "R0": {
+                        "expected": 27,
+                        "measured": 27
+                    },
+                    "R1": {
+                        "expected": 22,
+                        "measured": 22
+                    },
+                    "R2": {
+                        "expected": 0,
+                        "measured": 0
+                    },
+                    "R3": {
+                        "expected": 1,
+                        "measured": 1
+                    },
+                    "R4": {
+                        "expected": 0,
+                        "measured": 0
+                    },
+                    "R5": {
+                        "expected": 1,
+                        "measured": 1
+                    },
+                    "R6": {
+                        "expected": 0,
+                        "measured": 0
+                    },
+                    "R7": {
+                        "expected": 1,
+                        "measured": 1
+                    }
+                },
+                "RESULT": "PASS",
+                "RUNTIME": "18.29ms"
+            },
+            "cmp_test2": {
+                "HALT": {
+                    "R0": {
+                        "expected": 22,
+                        "measured": 22
+                    },
+                    "R1": {
+                        "expected": 27,
+                        "measured": 27
+                    },
+                    "R2": {
+                        "expected": 1,
+                        "measured": 1
+                    },
+                    "R3": {
+                        "expected": 0,
+                        "measured": 0
+                    },
+                    "R4": {
+                        "expected": 1,
+                        "measured": 1
+                    },
+                    "R5": {
+                        "expected": 0,
+                        "measured": 0
+                    },
+                    "R6": {
+                        "expected": 1,
+                        "measured": 1
+                    },
+                    "R7": {
+                        "expected": 0,
+                        "measured": 0
+                    }
+                },
+                "RESULT": "PASS",
+                "RUNTIME": "18.33ms"
+            },
+            "cmp_test3": {
+                "HALT": {
+                    "R0": {
+                        "expected": 25,
+                        "measured": 25
+                    },
+                    "R1": {
+                        "expected": 25,
+                        "measured": 25
+                    },
+                    "R2": {
+                        "expected": 1,
+                        "measured": 1
+                    },
+                    "R3": {
+                        "expected": 0,
+                        "measured": 0
+                    },
+                    "R4": {
+                        "expected": 0,
+                        "measured": 0
+                    },
+                    "R5": {
+                        "expected": 0,
+                        "measured": 0
+                    },
+                    "R6": {
+                        "expected": 1,
+                        "measured": 1
+                    },
+                    "R7": {
+                        "expected": 1,
+                        "measured": 1
+                    }
+                },
+                "RESULT": "PASS",
+                "RUNTIME": "24.91ms"
+            },
+            "RESULT": "PASS"
+        },
+        "branch_test": {
+            "HALT": {
+                "R0": {
+                    "expected": 2,
+                    "measured": 2
+                },
+                "R1": {
+                    "expected": 3,
+                    "measured": 3
+                },
+                "R2": {
+                    "expected": 3,
+                    "measured": 3
+                },
+                "R3": {
+                    "expected": -120,
+                    "measured": -120
+                },
+                "R4": {
+                    "expected": 126,
+                    "measured": 126
+                }
+            },
+            "RESULT": "PASS",
+            "RUNTIME": "18.24ms"
+        },
+        "RESULT": "PASS"
+    },
+    "integrated_tests": {
+        "loop_while": {
+            "HALT": {
+                "R0": {
+                    "expected": 5,
+                    "measured": 5
+                },
+                "R1": {
+                    "expected": 23,
+                    "measured": 23
+                },
+                "R2": {
+                    "expected": 20,
+                    "measured": 20
+                },
+                "R3": {
+                    "expected": 0,
+                    "measured": 0
+                },
+                "R4": {
+                    "expected": 20,
+                    "measured": 20
+                },
+                "R5": {
+                    "expected": 1,
+                    "measured": 1
+                },
+                "R6": {
+                    "expected": 0,
+                    "measured": 0
+                },
+                "R7": {
+                    "expected": 1,
+                    "measured": 1
+                },
+                "M0": {
+                    "expected": 20,
+                    "measured": 20
+                }
+            },
+            "RESULT": "PASS",
+            "RUNTIME": "21.33ms"
+        },
+        "RESULT": "PASS"
+    },
+    "RESULT": "PASS",
+    "TOTAL TIME": "721.23ms"
+}

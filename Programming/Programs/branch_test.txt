@@ -1,0 +1,26 @@
+LOADI #2, [r0]
+LOADI #3, [r1]
+CMP r0, r1
+BR LT, BR1
+HALT
+
+BR2:
+LOADI #-120, [r3]
+CMP r2, r3
+BR LT, BR3
+JMP JP1
+HALT
+
+BR1:
+LOADI #3, [r2]
+CMP r1, r2
+BR EQ, BR2
+HALT
+
+BR3:
+LOADI #0, [r0]
+HALT
+
+JP1:
+LOADI #126, [r4]
+HALT

@@ -1,0 +1,12 @@
+BASYS 3 CONNECTIONS
+
+SWITCHES:
+BTNUP: RESET, BTNDOWN: STEP
+sw 0-1: mode_sel -> 00=tick, 10=Manual, 01=turbo, 11=pause
+sw 3-5: display_mux to seven seg -> 000=pc, 001=reg, 010=mem, 011=IMM, 100=cpu_output, #101=inst
+sw 10-15: address
+
+
+LEDS
+0-1: mode_sel
+15-10: display_mux -> 000=opcode, 001=address,  010=address, 011=opcode, 100=aluflags

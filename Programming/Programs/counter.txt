@@ -1,0 +1,11 @@
+LOADI #0, [r0]
+LOADI #0, [r1] //loop counter
+LOOP:
+INC r0, [r0]
+CMPI r0, #5
+BR LT, LOOP //inc until 5
+INC r1, [r1]
+LOADI #-2, [r0]
+CMPI r1, #5
+BR LT, LOOP // loop 5 times
+HALT

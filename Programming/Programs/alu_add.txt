@@ -1,0 +1,9 @@
+LOADI #2, [r0]
+LOADI #18, [r1]
+ADD r0, r1, [r2]
+LOADI #-100, [r3]
+ADD r2, r3, [r4]
+INC r0, [r5]
+LOADI #127, [r0]
+INC r0, [r0]
+HALT

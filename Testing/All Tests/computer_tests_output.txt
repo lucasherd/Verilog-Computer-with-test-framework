@@ -1,0 +1,46 @@
+-----BEGINNING COMPUTER TESTS-----
+alu_tests:
+-------------------------
+Starting alu_add
+alu_add PASSED
+----------
+Starting alu_sub
+alu_sub PASSED
+----------
+Starting alu_bitwise
+alu_bitwise PASSED
+----------
+Starting alu_imm
+alu_imm PASSED
+----------
+alu_tests PASSED
+-------------------------
+non-alu_tests:
+-------------------------
+cmp_tests:
+--------------------
+Starting cmp_test1
+cmp_test1 PASSED
+----------
+Starting cmp_test2
+cmp_test2 PASSED
+----------
+Starting cmp_test3
+cmp_test3 PASSED
+----------
+cmp_tests PASSED
+--------------------
+Starting branch_test
+branch_test PASSED
+----------
+non-alu_tests PASSED
+-------------------------
+integrated_tests:
+-------------------------
+Starting loop_while
+loop_while PASSED
+----------
+integrated_tests PASSED
+-------------------------
+-----COMPUTER TESTS COMPLETED-----
+Result: **PASS**
