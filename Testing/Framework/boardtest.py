@@ -10,7 +10,7 @@ if decodepath not in sys.path:
 import assembler
 
 class BoardTest(test.Test):
-    MODES = ['TICK_MODE', 'MANUAL_MODE', 'TURBO_MODE']
+    MODES = ['TICK_MODE', 'MANUAL_MODE', 'TURBO_MODE', 'FAST_MODE']
 
     def __init__(self, name, displayall=0, update_program=False, suite=False):
         super().__init__(name=name, displayall=displayall, update_program=update_program, suite=suite)
@@ -60,7 +60,7 @@ class BoardTest(test.Test):
             shutil.copyfile(self.mem_path, "machine-code/instructions.mem")
         os.chdir("Verilog")
         os.system("iverilog -g2012 -o Simulator/cpu.out defines.sv computer.sv board.sv board_tb.sv") #compile testbench
-        for mode_num in range(3):
+        for mode_num in range(4):
             self.cur_mode = BoardTest.MODES[mode_num]
             self.data[self.cur_mode] = {}
             self.results[self.cur_mode] = {}
@@ -92,7 +92,7 @@ class BoardTest(test.Test):
                 f"{round(runtime * 1000, 2)}ms" if runtime < 1 else f"{round(runtime, 2)}s"
             if self.display:
                 for line in results:
-                    print(line)  # prints verilog simulation output
+                    print(line)  # prints verilog simulaiton output
                 print(self.data[self.cur_mode]["RUNTIME"])
         self.passed = self.passing
         self.data['RESULT'] = 'PASS' if self.passed else 'FAIL'
