@@ -1,0 +1,8 @@
+LOADI #0, [r0]
+LOADI #1, [r1]
+LOOP:
+ADD r0, r1, [r0]
+ADD r0, r1, [r1]
+CMPI r1, #0
+BR GT, LOOP
+HALT

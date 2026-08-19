@@ -1,0 +1,34 @@
+LOADI #2, [r0] //current candidate
+LOADI #2, [r7] //current memory pointer
+STOREI r0, m[#0]
+INC r0, [r0]
+STOREI r0, m[#1]
+CHECK_PRIME:
+ADDI r0, #2, [r0]
+CMPI r0, #0
+BR LT, END //stop program once reg overflows
+LOADI #1, [r1]
+NEXT_FACTOR:
+ADDI r1, #2, [r1]
+MOV r0, [r2]
+LOADI #0, [r3] //number of subractions -> only need to check until n_sub >=  remainder
+MOD:
+SUB r2, r1, [r2]
+INC r3, [r3]
+CMPI r2, #0
+BR GT, MOD
+BR EQ, CHECK_PRIME // found divisor, not prime
+CMP r1, r3
+BR GE, FOUND_PRIME //no factors found and square root passed, therefore prime
+JMP NEXT_FACTOR
+
+
+
+FOUND_PRIME: //r0 is prime, store to mem
+STORE r0, m[r7]
+INC r7, [r7]
+JMP CHECK_PRIME
+
+END:
+HALT
+
