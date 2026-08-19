@@ -333,7 +333,9 @@ module controlunit #(parameter int NREG=8, parameter int WIDTH=8, parameter int 
           writereg = 1; //load immediate to reg
           wb_sel = WB_IMM;
         end
-        5'b11111: begin //reset DONT USE BAD BAD BAD
+        5'b11111: begin //copy one reg to another
+        writereg = 1;
+        wb_sel = WB_REG;
         end
         default:;
       endcase

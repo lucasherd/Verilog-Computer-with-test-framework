@@ -7,24 +7,26 @@ module board_tb;
     parameter int PCWIDTH = 8;
     parameter int DEBOUNCE_CYCLES = 1;
     parameter int TICK_FREQ = 25000000; //every 4 clocks so seven seg can keep up
+    parameter int FAST_TICK_FREQ = 50000000;
     parameter int CLK_FREQ = 100000000;
     parameter int SEVEN_SEG_FREQ = 100000000;
     parameter int RESET_CYCLES = DEBOUNCE_CYCLES+2; // .1s at 100MHz
     parameter int MIN_DELAY = 4+DEBOUNCE_CYCLES*2; // 2 clock cycles for debouncing
     localparam int TIMEPERTICK = 2*CLK_FREQ/TICK_FREQ;
+    localparam int TIMEPERFASTTICK = 2*CLK_FREQ/FAST_TICK_FREQ;
     int mode_arg;
     enable_mode_t test_mode;
     initial begin
         if (!$value$plusargs("MODE=%s", mode_arg))
             $display("**WARNING** - MODE argument not provided");
         test_mode = enable_mode_t'(mode_arg);
-
+        $display("STARTIGNGNGN, fasttime=%d",TIMEPERFASTTICK);
     end
     reg [$clog2(NRAM)-1:0] monitor_address;
     reg clk, reset_btn, step_btn;
     enable_mode_t enable_switches;
     display_mux_t display_mux;
-    wire debugenable, debugreset, debugtick, debugstepbtn, debugstep, cpuhalted;
+    wire debugenable, debugreset, debugtick, debugfasttick, debugstepbtn, debugstep, cpuhalted;
     wire [15:0] led_data;
     seven_segment_t active_segments;
     wire [3:0] active_seven_seg_digit;
@@ -35,6 +37,7 @@ module board_tb;
         .PCWIDTH(PCWIDTH),
         .DEBOUNCE_CYCLES(DEBOUNCE_CYCLES),
         .TICK_FREQ(TICK_FREQ),
+        .FAST_TICK_FREQ(FAST_TICK_FREQ),
         .CLK_FREQ(CLK_FREQ),
         .SEVEN_SEG_FREQ(SEVEN_SEG_FREQ),
         .RESET_CYCLES(RESET_CYCLES)
@@ -46,16 +49,16 @@ module board_tb;
         .enable_switches(enable_switches),
         .display_mux(display_mux),
         .monitor_address(monitor_address),
-        .debugenable(debugenable),
-        .debugreset(debugreset),
-        .debugtick(debugtick),
-        .debugstep(debugstep),
-        .debugstepbtn(debugstepbtn),
-        .cpuhalted(cpuhalted),
         .active_seven_seg_digit(active_seven_seg_digit),
         .active_segments(active_segments)
     );
-
+    assign debugenable = basys3.debugenable;
+    assign debugreset = basys3.debugreset;
+    assign debugtick = basys3.debugtick;
+    assign debugfasttick = basys3.debugfasttick;
+    assign debugstep = basys3.debugstep;
+    assign debugstepbtn = basys3.debugstepbtn;
+    assign cpuhalted = basys3.cpuhalted;
 
     always #1 clk = ~clk;
     always @(posedge clk) begin
@@ -93,7 +96,7 @@ module board_tb;
             if (cpuhalted) $display("cycle: %3d, cpu is halted", cycles);
             else if (debugenable) begin
                 $display("cycle: %3d, enable: %b, step: %b, tick: %b, clkdiv_count: %d, pc: %d",
-                cycles, debugenable, debugstepbtn, debugtick, basys3.clk_div.count, basys3.dut.pc);
+                cycles, debugenable, debugstepbtn, debugtick, basys3.clk_div_tick.count, basys3.dut.pc);
             end
         end
     endtask
@@ -108,9 +111,8 @@ module board_tb;
         begin
             static int i = 0;
             enable_switches = mode;
-            $display("MODE: %b", mode);
-            while (i < 255 && !cpuhalted) begin
-                i = i+1;
+            $display("MODE: %s", mode.name());
+            while (!cpuhalted) begin
                 case (mode)
                     TICK_MODE: begin
                        #TIMEPERTICK;
@@ -122,11 +124,12 @@ module board_tb;
                         #MIN_DELAY;
                     end
                     TURBO_MODE: #2;
+                    FAST_MODE: #TIMEPERFASTTICK;
                     default: #2;
                 endcase
             end
-            if (cpuhalted) $display("PROGRAM COMPLETED! mode: %b", mode);
-            else $display("PROGRAM DID NOT COMPLETE :(");
+            if (cpuhalted) $display("PROGRAM COMPLETED! MODE: %s", mode.name());
+            else $display("PROGRAM DID NOT COMPLETE MODE: %s", mode.name());
         end
     endtask
 
@@ -140,11 +143,10 @@ module board_tb;
             basys3.dut.ram0.dump_ram_custom(pcstr);
         end
     endtask
-    //always #2 cycles = cycles + 1;
     initial begin
         clk = 0;
         step_btn = 0;
-        enable_switches = PAUSE_MODE;
+        enable_switches = TICK_MODE;
         reset_btn = 0;
         display_mux = DISPLAY_PC;
         monitor_address = 0;

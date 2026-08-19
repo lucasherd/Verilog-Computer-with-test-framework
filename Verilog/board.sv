@@ -264,6 +264,7 @@ module board #(
     parameter int PCWIDTH = 8,
     parameter int INST_WIDTH = 5+3*$clog2(NREG)+WIDTH,
     parameter int TICK_FREQ = 1,
+    parameter int FAST_TICK_FREQ = 10,
     parameter int CLK_FREQ = 100000000,
     parameter int SEVEN_SEG_FREQ = 1000,
     parameter int DEBOUNCE_CYCLES = 1000000, // 10ms at 100MHz
@@ -279,19 +280,24 @@ module board #(
     output dec_point,
     output [3:0] active_seven_seg_digit
 );
-    wire reset, reset_btn_db, tick, reset_clk_div;
+    wire reset, reset_btn_db, tick, fast_tick, reset_clk_div;
     wire [WIDTH-1:0] monitor_reg_data, monitor_mem_data, monitor_imm_data, cpu_output_data;
-    logic debugenable, debugreset, debugtick, debugstep, debugstepbtn, cpuhalted;
+    logic debugenable, debugreset, debugtick, debugfasttick, debugstep, debugstepbtn, cpuhalted;
     logic step_btn_db, prev_step_btn_db, step, computer_enable;
-    enable_mode_t mode_meta = PAUSE_MODE, mode = PAUSE_MODE; //ensure cpu doesnt run instantly
+    enable_mode_t mode_meta = TICK_MODE, mode = TICK_MODE;
     initial begin
         step = 0;
         prev_step_btn_db = 0;
     end
-    clk_divider #(.CLK_FREQ(CLK_FREQ), .TICK_FREQ(TICK_FREQ)) clk_div (
+    clk_divider #(.CLK_FREQ(CLK_FREQ), .TICK_FREQ(TICK_FREQ)) clk_div_tick (
         .clk(clk),
         .reset(reset_clk_div),
         .tick(tick)
+    );
+    clk_divider #(.CLK_FREQ(CLK_FREQ), .TICK_FREQ(FAST_TICK_FREQ)) clk_div_fast (
+        .clk(clk),
+        .reset(reset_clk_div),
+        .tick(fast_tick)
     );
     wire initial_reset;
     debouncer #(.DEBOUNCE_CYCLES(DEBOUNCE_CYCLES)) reset_debouncer (
@@ -364,18 +370,19 @@ module board #(
         .active_digit(active_seven_seg_digit)
     );
 
-    wire tick_mode_flag;
+    wire tick_mode_flag, fast_tick_mode_flag;
     //combinational logic
-    assign tick_mode_flag = mode == TICK_MODE;
+    assign tick_mode_flag = mode == (TICK_MODE);
+    assign fast_tick_mode_flag = mode == (FAST_MODE);
     assign reset = reset_btn_db | initial_reset;
-    assign reset_clk_div = reset || !tick_mode_flag; //clk div stays at 0 until tick mode is active
+    assign reset_clk_div = reset || !(tick_mode_flag||fast_tick_mode_flag); //clk div stays at 0 until tick mode is active
     always_comb begin // COMPUTER ENABLE LOGIC
         if (reset) computer_enable = 0;
         else case (mode)
             MANUAL_MODE: computer_enable = step;
             TICK_MODE: computer_enable = tick;
             TURBO_MODE: computer_enable = 1;
-            PAUSE_MODE: computer_enable = 0;
+            FAST_MODE: computer_enable = fast_tick;
             default: computer_enable = 0;
         endcase
     end
@@ -384,7 +391,7 @@ module board #(
     assign debugtick = tick;
     assign debugstep = step;
     assign debugstepbtn = step_btn_db;
-
+    assign debugfasttick = fast_tick;
     //sequential logic
 
     always_ff @(posedge clk) begin //syncronize switches to clock domain

@@ -19,6 +19,14 @@ module computer_tb;
   wire [$clog2(NREG)-1:0] dra, drb, drw;
   wire [$clog2(NRAM)-1:0] debugmemaddy;
   wire [PCWIDTH-1:0] pc;
+  reg dontprint;
+  reg doprint;
+    initial begin
+        if (!$value$plusargs("DONTPRINT=%s", dontprint))
+            dontprint = 0;
+        doprint = ~dontprint;
+        $display(doprint);
+    end
   computer #(.WIDTH(WIDTH), .NREG(NREG), .NRAM(NRAM), .PCWIDTH(PCWIDTH)) dut (
     .debugimm_data(imm_data),
     .clk(clk),
@@ -63,12 +71,13 @@ module computer_tb;
             $display("-----DUMPING CPU STATE INTO MEMORY-----");
             $sformat(pcstr, "%0d", pc);
             if (halted) pcstr = "HALT";
+            $display(pcstr);
             dut.cpu0.dp0.regs.dump_reg_custom(pcstr);
             dut.ram0.dump_ram_custom(pcstr);
         end
     endtask
   always @(posedge clk) begin
-    if (!halted && !reset) execute();
+    if (!halted && !reset && doprint) execute();
   end
   initial begin
     static int ran = 0;
@@ -78,8 +87,8 @@ module computer_tb;
     #2 reset = 0;
     $display("start!");
     $display("CPU PROGRAMMING TEST BEGINNING");
-    while (i < 100 && !halted) begin
-      #2 i = i + 1;
+    while (!halted) begin
+      #2;
     end
     if (halted) begin
       $display("PC: %d, CPU HALTED", pc);
@@ -90,6 +99,7 @@ module computer_tb;
       $display("PROGRAM DID NOT COMPLETE");
     end
     dump_state_pc();
+    $display("CLOCK CYCLES: %0d",$time/2);
     $display("------CPU PROGRAM TEST END------");
     $finish;
   end
@@ -97,12 +107,9 @@ module computer_tb;
     $dumpfile("Simulator/cpu.vcd");
     $dumpvars(0, computer_tb);
 end
-
-endmodule
-
-module stop_test;
-  initial begin
-    #500 $finish;
+  initial begin //prevent infinite loop
+    #200000
+      dump_state_pc();
+      $finish;
   end
 endmodule
-

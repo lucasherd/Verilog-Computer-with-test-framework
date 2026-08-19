@@ -31,7 +31,7 @@ typedef enum bit [1:0] {
     TICK_MODE = 2'b00,
     MANUAL_MODE = 2'b10,
     TURBO_MODE = 2'b01,
-    PAUSE_MODE = 2'b11
+    FAST_MODE = 2'b11
 } enable_mode_t;
 
 
